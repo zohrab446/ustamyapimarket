@@ -25,6 +25,11 @@ const HeroBanner = () => {
             Binlerce ürün, aynı gün kargo ve güvenli ödeme seçenekleri ile
             Ustam Yapı Market'te toptan fiyatlarla alışveriş yapın.
           </p>
+          <img
+            src="/images/hero-banner.jpg"
+            alt="Profesyonel hırdavat ve yapı market ürünleri"
+            className="hidden"
+          />
           <div className="flex flex-wrap gap-3">
             <Link
               to="/"

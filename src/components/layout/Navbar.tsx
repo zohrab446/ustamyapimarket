@@ -22,9 +22,9 @@ const Navbar = () => {
       <div className="bg-primary text-primary-foreground">
         <div className="container flex items-center justify-between py-1.5 text-xs sm:text-sm">
           <div className="flex items-center gap-4">
-            <a href="tel:08508501234" className="flex items-center gap-1 hover:text-secondary transition-colors">
+            <a href="tel:05445318394" className="flex items-center gap-1 hover:text-secondary transition-colors">
               <Phone className="w-3 h-3" />
-              <span className="hidden sm:inline">0850 850 12 34</span>
+              <span className="hidden sm:inline">0544 531 83 94</span>
             </a>
             <span className="hidden md:inline">Aynı Gün Kargo • Toptan Fiyat</span>
           </div>
