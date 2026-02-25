@@ -8,10 +8,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <h3 className="font-display text-xl font-bold mb-4">
-              USTA<span className="text-secondary">MARKET</span>
+              USTAM <span className="text-secondary">YAPI MARKET</span>
             </h3>
             <p className="text-sm opacity-80 mb-4">
-              Türkiye'nin en güvenilir hırdavat ve yapı market e-ticaret platformu.
+            Ustam Yapı Market - Türkiye'nin en güvenilir hırdavat ve yapı market e-ticaret platformu.
               Profesyoneller ve ustalar için toptan ve perakende satış.
             </p>
             <div className="flex items-center gap-2 text-sm opacity-80">
@@ -53,7 +53,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-8 pt-6 text-center text-sm opacity-60">
-          © 2026 UstaMarket. Tüm hakları saklıdır.
+          © 2026 Ustam Yapı Market. Tüm hakları saklıdır.
         </div>
       </div>
     </footer>
