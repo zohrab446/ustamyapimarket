@@ -23,7 +23,7 @@ const HeroBanner = () => {
           </h2>
           <p className="text-primary-foreground/80 text-base sm:text-lg max-w-md">
             Binlerce ürün, aynı gün kargo ve güvenli ödeme seçenekleri ile
-            Türkiye'nin en büyük online hırdavat marketi.
+            Ustam Yapı Market'te toptan fiyatlarla alışveriş yapın.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link

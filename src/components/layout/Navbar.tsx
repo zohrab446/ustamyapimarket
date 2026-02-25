@@ -55,7 +55,7 @@ const Navbar = () => {
         <div className="container flex items-center gap-4 py-3">
           <Link to="/" className="flex-shrink-0">
             <h1 className="font-display text-xl sm:text-2xl font-bold text-primary">
-              USTA<span className="text-secondary">MARKET</span>
+              USTAM <span className="text-secondary">YAPI MARKET</span>
             </h1>
           </Link>
 
