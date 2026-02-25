@@ -7,8 +7,13 @@ const Footer = () => {
       <div className="container py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <img src="/images/logo.png" alt="Ustam Yapı Market" className="h-14 w-auto mb-2" />
-            <h3 className="font-display text-xl font-bold mb-3">Ustam Yapı Market</h3>
+            <div className="flex items-center gap-3 mb-3">
+              <img src="/images/logo.png" alt="Ustam Yapı Market" className="h-14 w-auto" />
+              <h3 className="font-display text-xl font-bold">
+                <span className="text-secondary">Ustam</span>{" "}
+                <span className="text-primary-foreground">Yapı Market</span>
+              </h3>
+            </div>
             <p className="text-sm opacity-80 mb-4">
             Ustam Yapı Market - Türkiye'nin en güvenilir hırdavat ve yapı market e-ticaret platformu.
               Profesyoneller ve ustalar için toptan ve perakende satış.
