@@ -29,7 +29,7 @@ const Navbar = () => {
             <span className="hidden md:inline">Aynı Gün Kargo • Toptan Fiyat</span>
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/" className="hover:text-secondary transition-colors">Sipariş Takip</Link>
+            <Link to="/siparis-takip" className="hover:text-secondary transition-colors">Sipariş Takip</Link>
             {user ? (
               <>
                 {isAdmin && (
