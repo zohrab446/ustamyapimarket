@@ -1,12 +1,14 @@
-import { Search, ShoppingCart, Menu, Phone, User, X } from "lucide-react";
+import { Search, ShoppingCart, Menu, Phone, User, X, Settings, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { count } = useCart();
+  const { user, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -28,9 +30,22 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-3">
             <Link to="/" className="hover:text-secondary transition-colors">Sipariş Takip</Link>
-            <Link to="/" className="hover:text-secondary transition-colors flex items-center gap-1">
-              <User className="w-3 h-3" /> Giriş
-            </Link>
+            {user ? (
+              <>
+                {isAdmin && (
+                  <Link to="/admin" className="hover:text-secondary transition-colors flex items-center gap-1">
+                    <Settings className="w-3 h-3" /> Admin
+                  </Link>
+                )}
+                <button onClick={signOut} className="hover:text-secondary transition-colors flex items-center gap-1">
+                  <LogOut className="w-3 h-3" /> Çıkış
+                </button>
+              </>
+            ) : (
+              <Link to="/giris" className="hover:text-secondary transition-colors flex items-center gap-1">
+                <User className="w-3 h-3" /> Giriş
+              </Link>
+            )}
           </div>
         </div>
       </div>
