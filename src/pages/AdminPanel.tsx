@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Package, ShoppingCart, LogOut, ArrowLeft } from "lucide-react";
+import { Plus, Pencil, Trash2, Package, ShoppingCart, LogOut, ArrowLeft, Upload, Image } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface ProductRow {
@@ -38,6 +38,8 @@ const AdminPanel = () => {
   const [orders, setOrders] = useState<OrderRow[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<ProductRow | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
@@ -76,6 +78,7 @@ const AdminPanel = () => {
   const openAddForm = () => {
     setEditingProduct(null);
     setFormData({ name: "", slug: "", price: "", original_price: "", brand: "", image_url: "", badge: "", description: "", in_stock: true });
+    setImagePreview(null);
     setShowForm(true);
   };
 
@@ -92,6 +95,7 @@ const AdminPanel = () => {
       description: p.description || "",
       in_stock: p.in_stock,
     });
+    setImagePreview(p.image_url || null);
     setShowForm(true);
   };
 
@@ -211,9 +215,53 @@ const AdminPanel = () => {
                     <label className="block text-sm font-medium text-foreground mb-1">Marka</label>
                     <input value={formData.brand} onChange={e => setFormData({ ...formData, brand: e.target.value })} className="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:border-secondary focus:outline-none text-sm" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-1">Görsel URL</label>
-                    <input value={formData.image_url} onChange={e => setFormData({ ...formData, image_url: e.target.value })} className="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:border-secondary focus:outline-none text-sm" />
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-foreground mb-1">Ürün Görseli</label>
+                    <div className="flex items-start gap-4">
+                      {(imagePreview || formData.image_url) && (
+                        <div className="w-24 h-24 rounded-lg border border-border overflow-hidden bg-background flex-shrink-0">
+                          <img src={imagePreview || formData.image_url} alt="Önizleme" className="w-full h-full object-contain p-1" />
+                        </div>
+                      )}
+                      <div className="flex-1 space-y-2">
+                        <label className="flex items-center gap-2 px-4 py-3 rounded-lg border-2 border-dashed border-border bg-muted/30 hover:border-secondary cursor-pointer transition-colors">
+                          <Upload className="w-5 h-5 text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground">
+                            {uploading ? "Yükleniyor..." : "Fotoğraf Yükle"}
+                          </span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            disabled={uploading}
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+                              setUploading(true);
+                              const ext = file.name.split(".").pop();
+                              const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+                              const { data, error } = await supabase.storage
+                                .from("product-images")
+                                .upload(fileName, file);
+                              if (error) {
+                                toast.error("Yükleme hatası: " + error.message);
+                                setUploading(false);
+                                return;
+                              }
+                              const { data: urlData } = supabase.storage
+                                .from("product-images")
+                                .getPublicUrl(data.path);
+                              setFormData(prev => ({ ...prev, image_url: urlData.publicUrl }));
+                              setImagePreview(urlData.publicUrl);
+                              toast.success("Fotoğraf yüklendi!");
+                              setUploading(false);
+                            }}
+                          />
+                        </label>
+                        <p className="text-xs text-muted-foreground">veya URL girin:</p>
+                        <input value={formData.image_url} onChange={e => { setFormData({ ...formData, image_url: e.target.value }); setImagePreview(e.target.value); }} className="w-full h-10 px-3 rounded-lg border border-input bg-background text-foreground focus:border-secondary focus:outline-none text-sm" placeholder="https://..." />
+                      </div>
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-1">Etiket</label>
@@ -253,7 +301,18 @@ const AdminPanel = () => {
                 <tbody>
                   {products.map(p => (
                     <tr key={p.id} className="border-b border-border last:border-0 hover:bg-muted/50">
-                      <td className="px-4 py-3 text-foreground font-medium">{p.name}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          {p.image_url ? (
+                            <img src={p.image_url} alt={p.name} className="w-10 h-10 rounded object-contain bg-background border border-border" />
+                          ) : (
+                            <div className="w-10 h-10 rounded bg-muted flex items-center justify-center">
+                              <Image className="w-4 h-4 text-muted-foreground" />
+                            </div>
+                          )}
+                          <span className="text-foreground font-medium">{p.name}</span>
+                        </div>
+                      </td>
                       <td className="px-4 py-3 text-muted-foreground">{p.brand}</td>
                       <td className="px-4 py-3 text-right text-foreground font-semibold">{Number(p.price).toLocaleString("tr-TR")} ₺</td>
                       <td className="px-4 py-3 text-center">
