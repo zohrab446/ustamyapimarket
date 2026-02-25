@@ -32,6 +32,7 @@ const Checkout = () => {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [orderSummary, setOrderSummary] = useState("");
   const [isCorporate, setIsCorporate] = useState(false);
   const [sameBilling, setSameBilling] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("credit_card");
@@ -125,11 +126,26 @@ const Checkout = () => {
       return;
     }
 
+    // Build WhatsApp message before clearing cart
+    const itemLines = items.map(i => `• ${i.product.name} x${i.quantity} = ${(i.product.price * i.quantity).toLocaleString("tr-TR")} ₺`).join("\n");
+    const paymentLabels: Record<string, string> = { credit_card: "Kredi Kartı", bank_transfer: "Havale/EFT", cash_on_delivery: "Kapıda Ödeme" };
+    const summary = `🛒 Yeni Sipariş #${order.id.slice(0, 8)}\n\n` +
+      `👤 ${form.fullName}\n📞 ${form.phone}\n📧 ${form.email}\n` +
+      `📍 ${form.address}, ${form.district}, ${form.city}\n\n` +
+      `📦 Ürünler:\n${itemLines}\n\n` +
+      `💳 Ödeme: ${paymentLabels[paymentMethod]}\n` +
+      `💰 Toplam: ${finalTotal.toLocaleString("tr-TR")} ₺`;
+
+    setOrderSummary(summary);
     setOrderId(order.id);
     setSuccess(true);
     clear();
     toast.success("Siparişiniz başarıyla oluşturuldu!");
     setSubmitting(false);
+
+    // Auto-open WhatsApp with order details
+    const waUrl = `https://wa.me/908508501234?text=${encodeURIComponent(summary)}`;
+    window.open(waUrl, "_blank");
   };
 
   if (success) {
@@ -153,7 +169,7 @@ const Checkout = () => {
                 Alışverişe Devam Et
               </Link>
               <a
-                href={`https://wa.me/908508501234?text=${encodeURIComponent(`Merhaba, ${orderId.slice(0, 8)} numaralı siparişim hakkında bilgi almak istiyorum.`)}`}
+                href={`https://wa.me/908508501234?text=${encodeURIComponent(orderSummary || `Merhaba, ${orderId.slice(0, 8)} numaralı siparişim hakkında bilgi almak istiyorum.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-success text-success-foreground font-bold hover:opacity-90 transition-opacity"
