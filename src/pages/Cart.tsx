@@ -94,9 +94,9 @@ const Cart = () => {
                   </div>
                 </div>
 
-                <button className="w-full py-3 rounded-lg bg-gradient-cta text-secondary-foreground font-bold hover:opacity-90 transition-opacity">
+                <Link to="/siparis" className="w-full flex items-center justify-center py-3 rounded-lg bg-gradient-cta text-secondary-foreground font-bold hover:opacity-90 transition-opacity">
                   Siparişi Tamamla
-                </button>
+                </Link>
 
                 <a
                   href={`https://wa.me/908508501234?text=${whatsappMessage}`}

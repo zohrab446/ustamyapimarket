@@ -7,6 +7,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminPanel from "./pages/AdminPanel";
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/urun/:id" element={<ProductDetail />} />
             <Route path="/sepet" element={<Cart />} />
+            <Route path="/siparis" element={<Checkout />} />
             <Route path="/giris" element={<Login />} />
             <Route path="/kayit" element={<Register />} />
             <Route path="/admin" element={<AdminPanel />} />
