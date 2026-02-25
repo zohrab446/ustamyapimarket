@@ -144,7 +144,7 @@ const Checkout = () => {
     setSubmitting(false);
 
     // Auto-open WhatsApp with order details
-    const waUrl = `https://wa.me/908508501234?text=${encodeURIComponent(summary)}`;
+    const waUrl = `https://wa.me/905385466562?text=${encodeURIComponent(summary)}`;
     window.open(waUrl, "_blank");
   };
 
@@ -169,7 +169,7 @@ const Checkout = () => {
                 Alışverişe Devam Et
               </Link>
               <a
-                href={`https://wa.me/908508501234?text=${encodeURIComponent(orderSummary || `Merhaba, ${orderId.slice(0, 8)} numaralı siparişim hakkında bilgi almak istiyorum.`)}`}
+                href={`https://wa.me/905385466562?text=${encodeURIComponent(orderSummary || `Merhaba, ${orderId.slice(0, 8)} numaralı siparişim hakkında bilgi almak istiyorum.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-success text-success-foreground font-bold hover:opacity-90 transition-opacity"

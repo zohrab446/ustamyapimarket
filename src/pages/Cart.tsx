@@ -99,7 +99,7 @@ const Cart = () => {
                 </Link>
 
                 <a
-                  href={`https://wa.me/908508501234?text=${whatsappMessage}`}
+                  href={`https://wa.me/905385466562?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-success text-success-foreground font-bold hover:opacity-90 transition-opacity"
