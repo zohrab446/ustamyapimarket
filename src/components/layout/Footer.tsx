@@ -9,7 +9,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-3">
               <img src="/images/logo.png" alt="Ustam Yapı Market" className="h-14 w-auto" />
-              <h3 className="font-display text-2xl font-bold">
+              <h3 className="font-display text-2xl font-bold uppercase">
                 <span className="text-secondary">Ustam</span>{" "}
                 <span className="text-primary-foreground">Yapı Market</span>
               </h3>
