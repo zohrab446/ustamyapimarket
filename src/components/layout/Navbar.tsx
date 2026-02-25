@@ -120,13 +120,21 @@ const Navbar = () => {
         {/* Category nav */}
         <nav className="hidden md:block border-t border-border">
           <div className="container flex items-center gap-1 py-1">
-            {["Elektrikli Aletler", "Matkap", "Vida & Civata", "Boya & İnşaat", "Tesisat", "Bahçe", "Kampanyalar"].map((cat) => (
+            {[
+              { name: "Elektrikli Aletler", slug: "elektrikli-aletler" },
+              { name: "Matkap", slug: "matkap" },
+              { name: "Vida & Civata", slug: "vida-civata" },
+              { name: "Boya & İnşaat", slug: "boya-insaat" },
+              { name: "Tesisat", slug: "tesisat" },
+              { name: "Bahçe", slug: "bahce" },
+              { name: "Kampanyalar", slug: "kampanyalar" },
+            ].map((cat) => (
               <Link
-                key={cat}
-                to="/"
+                key={cat.slug}
+                to={`/kategori/${cat.slug}`}
                 className="px-3 py-2 text-sm font-medium text-foreground hover:text-secondary hover:bg-muted rounded-md transition-colors"
               >
-                {cat}
+                {cat.name}
               </Link>
             ))}
           </div>
@@ -137,14 +145,22 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="sm:hidden bg-card border-b border-border animate-slide-in-right">
           <div className="p-4 space-y-2">
-            {["Elektrikli Aletler", "Matkap", "Vida & Civata", "Boya & İnşaat", "Tesisat", "Bahçe", "Kampanyalar"].map((cat) => (
+            {[
+              { name: "Elektrikli Aletler", slug: "elektrikli-aletler" },
+              { name: "Matkap", slug: "matkap" },
+              { name: "Vida & Civata", slug: "vida-civata" },
+              { name: "Boya & İnşaat", slug: "boya-insaat" },
+              { name: "Tesisat", slug: "tesisat" },
+              { name: "Bahçe", slug: "bahce" },
+              { name: "Kampanyalar", slug: "kampanyalar" },
+            ].map((cat) => (
               <Link
-                key={cat}
-                to="/"
+                key={cat.slug}
+                to={`/kategori/${cat.slug}`}
                 onClick={() => setMobileMenuOpen(false)}
                 className="block px-3 py-2.5 text-sm font-medium text-foreground hover:text-secondary hover:bg-muted rounded-md transition-colors"
               >
-                {cat}
+                {cat.name}
               </Link>
             ))}
           </div>
