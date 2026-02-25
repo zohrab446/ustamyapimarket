@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Package, ShoppingCart, LogOut, ArrowLeft, Upload, Image } from "lucide-react";
+import { Plus, Pencil, Trash2, Package, ShoppingCart, LogOut, ArrowLeft, Upload, Image, ImagePlus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface ProductRow {
@@ -30,12 +30,23 @@ interface OrderRow {
   created_at: string;
 }
 
+interface BannerRow {
+  id: string;
+  image_url: string;
+  title: string | null;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+}
+
 const AdminPanel = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"products" | "orders">("products");
+  const [tab, setTab] = useState<"products" | "orders" | "banners">("products");
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [orders, setOrders] = useState<OrderRow[]>([]);
+  const [banners, setBanners] = useState<BannerRow[]>([]);
+  const [bannerUploading, setBannerUploading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<ProductRow | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -62,8 +73,14 @@ const AdminPanel = () => {
     if (isAdmin) {
       fetchProducts();
       fetchOrders();
+      fetchBanners();
     }
   }, [isAdmin]);
+
+  const fetchBanners = async () => {
+    const { data } = await supabase.from("banners").select("*").order("sort_order", { ascending: true });
+    if (data) setBanners(data as BannerRow[]);
+  };
 
   const fetchProducts = async () => {
     const { data } = await supabase.from("products").select("*").order("created_at", { ascending: false });
@@ -176,6 +193,9 @@ const AdminPanel = () => {
           </button>
           <button onClick={() => setTab("orders")} className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-colors ${tab === "orders" ? "bg-secondary text-secondary-foreground" : "bg-card text-foreground border border-border hover:bg-muted"}`}>
             <ShoppingCart className="w-4 h-4" /> Siparişler ({orders.length})
+          </button>
+          <button onClick={() => setTab("banners")} className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-colors ${tab === "banners" ? "bg-secondary text-secondary-foreground" : "bg-card text-foreground border border-border hover:bg-muted"}`}>
+            <ImagePlus className="w-4 h-4" /> Banner ({banners.length})
           </button>
         </div>
 
@@ -392,6 +412,96 @@ const AdminPanel = () => {
                   )}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {/* Banners tab */}
+        {tab === "banners" && (
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-display text-xl font-bold text-foreground">Banner Yönetimi</h2>
+              <label className="flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary text-secondary-foreground font-semibold text-sm hover:opacity-90 transition-opacity cursor-pointer">
+                <Upload className="w-4 h-4" />
+                {bannerUploading ? "Yükleniyor..." : "Banner Ekle"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  disabled={bannerUploading}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    setBannerUploading(true);
+                    const ext = file.name.split(".").pop();
+                    const fileName = `banner-${Date.now()}.${ext}`;
+                    const { data, error } = await supabase.storage
+                      .from("product-images")
+                      .upload(fileName, file);
+                    if (error) {
+                      toast.error("Yükleme hatası: " + error.message);
+                      setBannerUploading(false);
+                      return;
+                    }
+                    const { data: urlData } = supabase.storage
+                      .from("product-images")
+                      .getPublicUrl(data.path);
+                    const { error: insertError } = await supabase.from("banners").insert({
+                      image_url: urlData.publicUrl,
+                      sort_order: banners.length,
+                    });
+                    if (insertError) {
+                      toast.error(insertError.message);
+                    } else {
+                      toast.success("Banner eklendi!");
+                      fetchBanners();
+                    }
+                    setBannerUploading(false);
+                  }}
+                />
+              </label>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {banners.map((b) => (
+                <div key={b.id} className="relative group rounded-xl overflow-hidden border border-border bg-card">
+                  <img src={b.image_url} alt={b.title || "Banner"} className="w-full h-48 object-cover" />
+                  <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-colors flex items-center justify-center">
+                    <button
+                      onClick={async () => {
+                        if (!confirm("Bu banner'ı silmek istediğinize emin misiniz?")) return;
+                        const { error } = await supabase.from("banners").delete().eq("id", b.id);
+                        if (error) { toast.error(error.message); return; }
+                        toast.success("Banner silindi");
+                        fetchBanners();
+                      }}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-full bg-destructive text-destructive-foreground hover:opacity-90"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                  <div className="p-3 flex items-center justify-between">
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded ${b.is_active ? "bg-success/10 text-success" : "bg-muted text-muted-foreground"}`}>
+                      {b.is_active ? "Aktif" : "Pasif"}
+                    </span>
+                    <button
+                      onClick={async () => {
+                        const { error } = await supabase.from("banners").update({ is_active: !b.is_active }).eq("id", b.id);
+                        if (error) { toast.error(error.message); return; }
+                        fetchBanners();
+                      }}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {b.is_active ? "Pasife Al" : "Aktife Al"}
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {banners.length === 0 && (
+                <div className="col-span-full text-center py-12 text-muted-foreground">
+                  Henüz banner eklenmedi. Yukarıdaki butona tıklayarak banner ekleyin.
+                </div>
+              )}
             </div>
           </div>
         )}
