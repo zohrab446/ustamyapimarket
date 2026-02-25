@@ -7,6 +7,7 @@ const Footer = () => {
       <div className="container py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
+            <img src="/images/logo.png" alt="Ustam Yapı Market" className="h-14 w-auto mb-2" />
             <h3 className="font-display text-xl font-bold mb-3">Ustam Yapı Market</h3>
             <p className="text-sm opacity-80 mb-4">
             Ustam Yapı Market - Türkiye'nin en güvenilir hırdavat ve yapı market e-ticaret platformu.
