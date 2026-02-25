@@ -12,6 +12,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminPanel from "./pages/AdminPanel";
 import CategoryProducts from "./pages/CategoryProducts";
+import OrderTracking from "./pages/OrderTracking";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +34,8 @@ const App = () => (
             <Route path="/giris" element={<Login />} />
             <Route path="/kayit" element={<Register />} />
             <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/siparis-takip" element={<OrderTracking />} />
+            <Route path="/iletisim" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
