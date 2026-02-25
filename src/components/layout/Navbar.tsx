@@ -54,7 +54,7 @@ const Navbar = () => {
       <div className="bg-card shadow-sm border-b border-border">
         <div className="container flex items-center gap-4 py-3">
           <Link to="/" className="flex-shrink-0">
-            <img src="/images/logo.png" alt="Ustam Yapı Market" className="h-10 sm:h-12 w-auto" />
+            <img src="/images/logo.png" alt="Ustam Yapı Market" className="h-[47.5px] sm:h-[55.5px] w-auto" />
           </Link>
 
           {/* Search */}
