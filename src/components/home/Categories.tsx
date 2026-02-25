@@ -10,7 +10,7 @@ const Categories = () => {
           {categories.map((cat) => (
             <Link
               key={cat.id}
-              to="/"
+              to={`/kategori/${cat.id}`}
               className="group flex flex-col items-center gap-3 p-5 rounded-xl bg-card border border-border hover:border-secondary hover:shadow-product-hover transition-all duration-200"
             >
               <span className="text-3xl">{cat.icon}</span>
