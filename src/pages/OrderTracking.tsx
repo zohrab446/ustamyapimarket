@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Search, Package, Clock, Truck, CheckCircle, XCircle } from "lucide-react";
@@ -30,52 +30,60 @@ const OrderTracking = () => {
   const [searchError, setSearchError] = useState("");
   const [searching, setSearching] = useState(false);
   const [userOrders, setUserOrders] = useState<Order[]>([]);
-  const [loadedUserOrders, setLoadedUserOrders] = useState(false);
+  const [loadingOrders, setLoadingOrders] = useState(false);
 
+  // Search by order number - only works for logged-in user's own orders
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!orderNo.trim()) return;
+    const q = orderNo.trim();
+    if (!q) return;
     setSearching(true);
     setSearchError("");
     setSearchedOrder(null);
 
+    // Try full UUID or partial match
     const { data, error } = await supabase
       .from("orders")
       .select("*")
-      .eq("id", orderNo.trim())
+      .or(`id.eq.${q},id.ilike.${q}%`)
+      .limit(1)
       .maybeSingle();
 
     if (error || !data) {
-      setSearchError("Sipariş bulunamadı. Lütfen sipariş numaranızı kontrol edin.");
+      setSearchError("Sipariş bulunamadı. Giriş yaptığınızdan ve sipariş numaranızın doğru olduğundan emin olun.");
     } else {
       setSearchedOrder(data as Order);
     }
     setSearching(false);
   };
 
-  const loadUserOrders = async () => {
+  // Load user's orders
+  useEffect(() => {
     if (!user) return;
-    const { data } = await supabase
-      .from("orders")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false });
-    if (data) setUserOrders(data as Order[]);
-    setLoadedUserOrders(true);
-  };
-
-  if (user && !loadedUserOrders) {
-    loadUserOrders();
-  }
+    setLoadingOrders(true);
+    const fetchOrders = async () => {
+      const { data } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+      if (data) setUserOrders(data as Order[]);
+      setLoadingOrders(false);
+    };
+    fetchOrders();
+  }, [user]);
 
   const renderOrder = (order: Order) => {
     const status = statusMap[order.status] || statusMap.pending;
+    const steps = ["pending", "confirmed", "shipped", "delivered"];
+    const currentIdx = steps.indexOf(order.status);
+
     return (
       <div key={order.id} className="bg-card border border-border rounded-xl p-5">
         <div className="flex items-center justify-between mb-3">
           <div>
             <p className="text-xs text-muted-foreground">Sipariş No</p>
-            <p className="font-mono text-sm text-foreground">{order.id.slice(0, 8)}...</p>
+            <p className="font-mono text-sm text-foreground select-all">{order.id.slice(0, 8)}</p>
           </div>
           <div className={`flex items-center gap-2 ${status.color}`}>
             {status.icon}
@@ -93,7 +101,7 @@ const OrderTracking = () => {
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Ödeme</p>
-            <p className="text-foreground">{order.payment_method || "-"}</p>
+            <p className="text-foreground">{order.payment_method === "credit_card" ? "Kredi Kartı" : order.payment_method === "bank_transfer" ? "Havale" : order.payment_method === "cash_on_delivery" ? "Kapıda Ödeme" : order.payment_method || "-"}</p>
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Adres</p>
@@ -102,14 +110,12 @@ const OrderTracking = () => {
         </div>
         {/* Status timeline */}
         <div className="mt-4 flex items-center gap-1">
-          {["pending", "confirmed", "shipped", "delivered"].map((s, i) => {
-            const steps = ["pending", "confirmed", "shipped", "delivered"];
-            const currentIdx = steps.indexOf(order.status);
+          {steps.map((s, i) => {
             const isActive = i <= currentIdx && order.status !== "cancelled";
             return (
               <div key={s} className="flex items-center flex-1">
-                <div className={`w-3 h-3 rounded-full ${isActive ? "bg-secondary" : "bg-muted"}`} />
-                {i < 3 && <div className={`flex-1 h-0.5 ${isActive && i < currentIdx ? "bg-secondary" : "bg-muted"}`} />}
+                <div className={`w-3 h-3 rounded-full flex-shrink-0 ${isActive ? "bg-secondary" : "bg-muted"}`} />
+                {i < steps.length - 1 && <div className={`flex-1 h-0.5 ${isActive && i < currentIdx ? "bg-secondary" : "bg-muted"}`} />}
               </div>
             );
           })}
@@ -133,12 +139,13 @@ const OrderTracking = () => {
         {/* Search by order number */}
         <div className="bg-card border border-border rounded-xl p-6 mb-8">
           <h2 className="font-semibold text-foreground mb-3">Sipariş Numarası ile Sorgula</h2>
+          <p className="text-xs text-muted-foreground mb-3">Sipariş numaranızın ilk 8 karakterini girin (hesabınızla giriş yapmanız gerekir).</p>
           <form onSubmit={handleSearch} className="flex gap-2">
             <input
               type="text"
               value={orderNo}
               onChange={(e) => setOrderNo(e.target.value)}
-              placeholder="Sipariş numaranızı girin..."
+              placeholder="Örn: 85580950"
               className="flex-1 h-11 px-4 rounded-lg border-2 border-muted bg-background text-foreground placeholder:text-muted-foreground focus:border-secondary focus:outline-none"
             />
             <button
@@ -158,7 +165,9 @@ const OrderTracking = () => {
         {user ? (
           <div>
             <h2 className="font-display text-xl font-bold text-foreground mb-4">Siparişlerim</h2>
-            {userOrders.length > 0 ? (
+            {loadingOrders ? (
+              <div className="text-center py-12 text-muted-foreground">Yükleniyor...</div>
+            ) : userOrders.length > 0 ? (
               <div className="space-y-4">
                 {userOrders.map(renderOrder)}
               </div>
@@ -170,7 +179,7 @@ const OrderTracking = () => {
           </div>
         ) : (
           <div className="text-center py-8 bg-card border border-border rounded-xl">
-            <p className="text-muted-foreground mb-2">Tüm siparişlerinizi görmek için giriş yapın.</p>
+            <p className="text-muted-foreground mb-2">Siparişlerinizi görmek için giriş yapın.</p>
             <a href="/giris" className="text-secondary font-semibold hover:underline">Giriş Yap</a>
           </div>
         )}
