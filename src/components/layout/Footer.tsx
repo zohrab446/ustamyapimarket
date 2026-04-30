@@ -15,18 +15,18 @@ const Footer = () => {
     { name: "Hakkımızda", to: "/hakkimizda" },
     { name: "İletişim", to: "/iletisim" },
     { name: "Bayi Girişi", to: "/giris" },
-    { name: "Toplu Sipariş", to: "/iletisim" },
-    { name: "Teklif Al", to: "/iletisim" },
-    { name: "Kariyer", to: "/iletisim" },
+    { name: "Toplu Sipariş", to: "/toplu-siparis" },
+    { name: "Teklif Al", to: "/teklif-al" },
+    { name: "Kariyer", to: "/kariyer" },
   ];
 
   const help: { name: string; to: string }[] = [
     { name: "Sipariş Takip", to: "/siparis-takip" },
-    { name: "İade & Değişim", to: "/iletisim" },
-    { name: "Kargo Bilgisi", to: "/iletisim" },
-    { name: "SSS", to: "/iletisim" },
-    { name: "Gizlilik Politikası", to: "/iletisim" },
-    { name: "Kullanım Koşulları", to: "/iletisim" },
+    { name: "İade & Değişim", to: "/iade-degisim" },
+    { name: "Kargo Bilgisi", to: "/kargo" },
+    { name: "SSS", to: "/sss" },
+    { name: "Gizlilik Politikası", to: "/gizlilik" },
+    { name: "Kullanım Koşulları", to: "/kullanim-kosullari" },
   ];
 
   return (
