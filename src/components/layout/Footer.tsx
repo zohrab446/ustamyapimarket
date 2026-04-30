@@ -12,7 +12,7 @@ const Footer = () => {
   ];
 
   const corporate: { name: string; to: string }[] = [
-    { name: "Hakkımızda", to: "/iletisim" },
+    { name: "Hakkımızda", to: "/hakkimizda" },
     { name: "İletişim", to: "/iletisim" },
     { name: "Bayi Girişi", to: "/giris" },
     { name: "Toplu Sipariş", to: "/iletisim" },
