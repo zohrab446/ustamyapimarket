@@ -239,8 +239,16 @@ const AdminPanel = () => {
                     <label className="block text-sm font-medium text-foreground mb-1">Ürün Görseli</label>
                     <div className="flex items-start gap-4">
                       {(imagePreview || formData.image_url) && (
-                        <div className="w-24 h-24 rounded-lg border border-border overflow-hidden bg-background flex-shrink-0">
+                        <div className="relative w-24 h-24 rounded-lg border border-border overflow-hidden bg-background flex-shrink-0">
                           <img src={imagePreview || formData.image_url} alt="Önizleme" className="w-full h-full object-contain p-1" />
+                          <button
+                            type="button"
+                            onClick={() => { setFormData(prev => ({ ...prev, image_url: "" })); setImagePreview(null); }}
+                            className="absolute top-1 right-1 p-1 rounded-full bg-destructive text-destructive-foreground hover:opacity-90"
+                            aria-label="Fotoğrafı kaldır"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
                         </div>
                       )}
                       <div className="flex-1 space-y-2">
