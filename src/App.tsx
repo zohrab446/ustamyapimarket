@@ -14,6 +14,7 @@ import AdminPanel from "./pages/AdminPanel";
 import CategoryProducts from "./pages/CategoryProducts";
 import OrderTracking from "./pages/OrderTracking";
 import Contact from "./pages/Contact";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/admin" element={<AdminPanel />} />
             <Route path="/siparis-takip" element={<OrderTracking />} />
             <Route path="/iletisim" element={<Contact />} />
+            <Route path="/hakkimizda" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
