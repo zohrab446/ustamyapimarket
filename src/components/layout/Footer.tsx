@@ -2,6 +2,33 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const categories: { name: string; slug: string }[] = [
+    { name: "Elektrikli Aletler", slug: "elektrikli-aletler" },
+    { name: "Matkap & Vidalama", slug: "matkap" },
+    { name: "Vida & Civata", slug: "vida-civata" },
+    { name: "Boya & İnşaat", slug: "boya-insaat" },
+    { name: "Tesisat", slug: "tesisat" },
+    { name: "Bahçe Ürünleri", slug: "bahce" },
+  ];
+
+  const corporate: { name: string; to: string }[] = [
+    { name: "Hakkımızda", to: "/iletisim" },
+    { name: "İletişim", to: "/iletisim" },
+    { name: "Bayi Girişi", to: "/giris" },
+    { name: "Toplu Sipariş", to: "/iletisim" },
+    { name: "Teklif Al", to: "/iletisim" },
+    { name: "Kariyer", to: "/iletisim" },
+  ];
+
+  const help: { name: string; to: string }[] = [
+    { name: "Sipariş Takip", to: "/siparis-takip" },
+    { name: "İade & Değişim", to: "/iletisim" },
+    { name: "Kargo Bilgisi", to: "/iletisim" },
+    { name: "SSS", to: "/iletisim" },
+    { name: "Gizlilik Politikası", to: "/iletisim" },
+    { name: "Kullanım Koşulları", to: "/iletisim" },
+  ];
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container py-12">
@@ -31,8 +58,8 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-semibold mb-4">Kategoriler</h4>
             <ul className="space-y-2 text-sm opacity-80">
-              {["Elektrikli Aletler", "Matkap & Vidalama", "Vida & Civata", "Boya & İnşaat", "Tesisat", "Bahçe Ürünleri"].map(c => (
-                <li key={c}><Link to="/" className="hover:text-secondary transition-colors">{c}</Link></li>
+              {categories.map(c => (
+                <li key={c.slug}><Link to={`/kategori/${c.slug}`} className="hover:text-secondary transition-colors">{c.name}</Link></li>
               ))}
             </ul>
           </div>
@@ -40,8 +67,8 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-semibold mb-4">Kurumsal</h4>
             <ul className="space-y-2 text-sm opacity-80">
-              {["Hakkımızda", "İletişim", "Bayi Girişi", "Toplu Sipariş", "Teklif Al", "Kariyer"].map(c => (
-                <li key={c}><Link to="/" className="hover:text-secondary transition-colors">{c}</Link></li>
+              {corporate.map(c => (
+                <li key={c.name}><Link to={c.to} className="hover:text-secondary transition-colors">{c.name}</Link></li>
               ))}
             </ul>
           </div>
@@ -49,8 +76,8 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-semibold mb-4">Yardım</h4>
             <ul className="space-y-2 text-sm opacity-80">
-              {["Sipariş Takip", "İade & Değişim", "Kargo Bilgisi", "SSS", "Gizlilik Politikası", "Kullanım Koşulları"].map(c => (
-                <li key={c}><Link to="/" className="hover:text-secondary transition-colors">{c}</Link></li>
+              {help.map(c => (
+                <li key={c.name}><Link to={c.to} className="hover:text-secondary transition-colors">{c.name}</Link></li>
               ))}
             </ul>
           </div>
