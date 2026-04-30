@@ -12,8 +12,14 @@ const About = () => {
         <div className="bg-card border border-border rounded-xl p-6 mb-6">
           <h2 className="font-display text-xl font-bold text-foreground mb-3">Ustam Yapı Market</h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Ustam Yapı Market, Türkiye'nin güvenilir hırdavat ve yapı market e-ticaret platformudur.
-            Profesyonel ustalar, müteahhitler ve ev kullanıcıları için geniş ürün yelpazemizle hizmet veriyoruz.
+            Ustam Yapı Market'in temelleri, inşaat ve yapı sektöründeki yılların birikimini dijital
+            dünyaya taşımak amacıyla tam 10 yıl önce atıldı. Ancak bizim hikayemiz, sadece on yıllık
+            bir ticari geçmişten ibaret değil; tozlu şantiyelerden, ter dökülen atölyelerden ve işine
+            tutkuyla bağlı bir usta-çırak disiplininden doğdu.
+          </p>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            Türkiye'nin güvenilir hırdavat ve yapı market e-ticaret platformu olarak; profesyonel
+            ustalar, müteahhitler ve ev kullanıcıları için geniş ürün yelpazemizle hizmet veriyoruz.
           </p>
           <p className="text-muted-foreground leading-relaxed">
             Elektrikli aletlerden vida-civataya, boya malzemelerinden tesisat ürünlerine kadar
