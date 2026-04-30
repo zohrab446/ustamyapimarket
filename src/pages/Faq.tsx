@@ -4,6 +4,7 @@ import Footer from "@/components/layout/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const faqs = [
+  { q: "Neden Ustam Yapı Market'i tercih etmeliyim?", a: "Biz sadece ürün satmıyoruz; işin mutfağından geldiğimiz için hangi ürünün hangi projede en iyi sonucu vereceğini biliyoruz. \"Kötü malzeme ustayı rezil eder\" ilkesiyle, kendi projelerimizde kullanmayacağımız hiçbir ürünü mağazamızda bulundurmuyoruz." },
   { q: "Sipariş verdikten sonra ne kadar sürede kargolanır?", a: "14:00'a kadar verilen siparişler aynı gün kargoya teslim edilir. Sonraki saatlerde verilen siparişler bir sonraki iş gününde gönderilir." },
   { q: "Toplu sipariş için indirim alabilir miyim?", a: "Evet, toplu siparişlerde %25'e varan indirimler sunuyoruz. Toplu Sipariş veya Teklif Al sayfasından talep oluşturabilirsiniz." },
   { q: "Kurumsal fatura kesiyor musunuz?", a: "Evet, tüm siparişlerde kurumsal fatura keserek gönderiyoruz. Sipariş sırasında firma bilgilerinizi girmeniz yeterlidir." },
@@ -11,7 +12,6 @@ const faqs = [
   { q: "Ödeme yöntemleri nelerdir?", a: "Kredi kartı, havale/EFT ve kapıda ödeme seçeneklerini kullanabilirsiniz." },
   { q: "Siparişimi nasıl takip edebilirim?", a: "Sipariş Takip sayfasından sipariş numaranız ile durumu kontrol edebilirsiniz." },
   { q: "Satılan ürünler orijinal mi?", a: "Evet, mağazamızda yer alan tüm markalar %100 orijinaldir ve resmi distribütör garantisi altındadır." },
-  { q: "Neden Ustam Yapı Market'i tercih etmeliyim?", a: "Biz sadece ürün satmıyoruz; işin mutfağından geldiğimiz için hangi ürünün hangi projede en iyi sonucu vereceğini biliyoruz. \"Kötü malzeme ustayı rezil eder\" ilkesiyle, kendi projelerimizde kullanmayacağımız hiçbir ürünü mağazamızda bulundurmuyoruz." },
   { q: "Arızalı çıkan ürünlerde nasıl bir yol izlemeliyim?", a: "Ürününüzde üretimden kaynaklı bir sorun olması durumunda, markanın yetkili servis noktalarından destek alabilir veya bizimle iletişime geçerek garanti süreçlerini başlatabilirsiniz." },
   { q: "Hangi ürünün işime daha uygun olduğunu nasıl öğrenebilirim?", a: "Teknik ekibimiz size destek olmaktan mutluluk duyar. İletişim sayfamız üzerinden bize ulaşarak projeniz veya ihtiyacınız olan iş kolu hakkında bilgi verirseniz, size en doğru ekipman önerisini sunabiliriz." },
 ];
