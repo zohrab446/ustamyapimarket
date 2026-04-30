@@ -118,10 +118,13 @@ const AdminPanel = () => {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.name.trim()) { toast.error("Ürün adı zorunludur"); return; }
+    const priceNum = parseFloat(formData.price);
+    if (!formData.price || isNaN(priceNum) || priceNum <= 0) { toast.error("Geçerli bir fiyat girin"); return; }
     const payload = {
       name: formData.name,
       slug: formData.slug || formData.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""),
-      price: parseFloat(formData.price),
+      price: priceNum,
       original_price: formData.original_price ? parseFloat(formData.original_price) : null,
       brand: formData.brand || null,
       image_url: formData.image_url || null,
@@ -130,17 +133,22 @@ const AdminPanel = () => {
       in_stock: formData.in_stock,
     };
 
-    if (editingProduct) {
-      const { error } = await supabase.from("products").update(payload).eq("id", editingProduct.id);
-      if (error) { toast.error(error.message); return; }
-      toast.success("Ürün güncellendi");
-    } else {
-      const { error } = await supabase.from("products").insert(payload);
-      if (error) { toast.error(error.message); return; }
-      toast.success("Ürün eklendi");
+    try {
+      if (editingProduct) {
+        const { error } = await supabase.from("products").update(payload).eq("id", editingProduct.id);
+        if (error) throw error;
+        toast.success("Ürün güncellendi");
+      } else {
+        const { error } = await supabase.from("products").insert(payload);
+        if (error) throw error;
+        toast.success("Ürün eklendi");
+      }
+      setShowForm(false);
+      fetchProducts();
+    } catch (err: any) {
+      console.error("Ürün kaydetme hatası:", err);
+      toast.error("Hata: " + (err?.message || "Ürün kaydedilemedi"));
     }
-    setShowForm(false);
-    fetchProducts();
   };
 
   const deleteProduct = async (id: string) => {
