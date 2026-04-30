@@ -16,6 +16,13 @@ import OrderTracking from "./pages/OrderTracking";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import BulkOrder from "./pages/BulkOrder";
+import QuoteRequest from "./pages/QuoteRequest";
+import Career from "./pages/Career";
+import Returns from "./pages/Returns";
+import Shipping from "./pages/Shipping";
+import Faq from "./pages/Faq";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +47,13 @@ const App = () => (
             <Route path="/iletisim" element={<Contact />} />
             <Route path="/hakkimizda" element={<About />} />
             <Route path="/toplu-siparis" element={<BulkOrder />} />
+            <Route path="/teklif-al" element={<QuoteRequest />} />
+            <Route path="/kariyer" element={<Career />} />
+            <Route path="/iade-degisim" element={<Returns />} />
+            <Route path="/kargo" element={<Shipping />} />
+            <Route path="/sss" element={<Faq />} />
+            <Route path="/gizlilik" element={<Privacy />} />
+            <Route path="/kullanim-kosullari" element={<Terms />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
