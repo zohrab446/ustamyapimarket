@@ -23,6 +23,7 @@ import Shipping from "./pages/Shipping";
 import Faq from "./pages/Faq";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import SearchResults from "./pages/SearchResults";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,6 +55,7 @@ const App = () => (
             <Route path="/sss" element={<Faq />} />
             <Route path="/gizlilik" element={<Privacy />} />
             <Route path="/kullanim-kosullari" element={<Terms />} />
+            <Route path="/arama" element={<SearchResults />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -72,13 +72,13 @@ const HeroBanner = () => {
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
-              to="/"
+              to="/kategori/elektrikli-aletler"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-gradient-cta text-secondary-foreground font-bold text-base hover:opacity-90 transition-opacity shadow-lg"
             >
               Ürünleri İncele <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
-              to="/"
+              to="/teklif-al"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg border-2 border-primary-foreground/30 text-primary-foreground font-semibold text-base hover:bg-primary-foreground/10 transition-colors"
             >
               Teklif Al
