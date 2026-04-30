@@ -13,7 +13,9 @@ const Navbar = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // search logic
+    const q = searchQuery.trim();
+    if (!q) return;
+    navigate(`/arama?q=${encodeURIComponent(q)}`);
   };
 
   return (
