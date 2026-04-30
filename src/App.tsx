@@ -15,6 +15,7 @@ import CategoryProducts from "./pages/CategoryProducts";
 import OrderTracking from "./pages/OrderTracking";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
+import BulkOrder from "./pages/BulkOrder";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/siparis-takip" element={<OrderTracking />} />
             <Route path="/iletisim" element={<Contact />} />
             <Route path="/hakkimizda" element={<About />} />
+            <Route path="/toplu-siparis" element={<BulkOrder />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
