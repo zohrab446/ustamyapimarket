@@ -474,20 +474,19 @@ const AdminPanel = () => {
               {banners.map((b) => (
                 <div key={b.id} className="relative group rounded-xl overflow-hidden border border-border bg-card">
                   <img src={b.image_url} alt={b.title || "Banner"} className="w-full h-48 object-cover" />
-                  <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-colors flex items-center justify-center">
-                    <button
-                      onClick={async () => {
-                        if (!confirm("Bu banner'ı silmek istediğinize emin misiniz?")) return;
-                        const { error } = await supabase.from("banners").delete().eq("id", b.id);
-                        if (error) { toast.error(error.message); return; }
-                        toast.success("Banner silindi");
-                        fetchBanners();
-                      }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-full bg-destructive text-destructive-foreground hover:opacity-90"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={async () => {
+                      if (!confirm("Bu banner'ı silmek istediğinize emin misiniz?")) return;
+                      const { error } = await supabase.from("banners").delete().eq("id", b.id);
+                      if (error) { toast.error(error.message); return; }
+                      toast.success("Banner silindi");
+                      fetchBanners();
+                    }}
+                    className="absolute top-2 right-2 p-2 rounded-full bg-destructive text-destructive-foreground hover:opacity-90 shadow-lg"
+                    aria-label="Banner sil"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                   <div className="p-3 flex items-center justify-between">
                     <span className={`text-xs font-medium px-2 py-0.5 rounded ${b.is_active ? "bg-success/10 text-success" : "bg-muted text-muted-foreground"}`}>
                       {b.is_active ? "Aktif" : "Pasif"}
